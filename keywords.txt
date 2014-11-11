@@ -1,0 +1,8 @@
+SatelliteReceive	KEYWORD1
+regByte	KEYWORD2
+getThro	KEYWORD2
+getAile	KEYWORD2
+getElev	KEYWORD2
+getRudd	KEYWORD2
+getGear	KEYWORD2
+getFlap	KEYWORD2
