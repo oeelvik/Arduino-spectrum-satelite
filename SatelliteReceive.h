@@ -8,7 +8,11 @@
 #ifndef SPECTRUMRECIVE_H_
 #define SPECTRUMRECIVE_H_
 
-#include "WProgram.h"
+#if defined(ARDUINO) && ARDUINO >= 100
+  #include "Arduino.h"
+#else
+  #include "WProgram.h"
+#endif
 
 #define RXCENTER 511
 #define RXTRAVEL 358 // (511 center - 63 trim) / 1,25 maxTravel
