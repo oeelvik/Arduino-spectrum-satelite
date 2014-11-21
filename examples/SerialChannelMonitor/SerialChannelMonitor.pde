@@ -1,8 +1,8 @@
-#include <SatelliteRecive.h>
+#include <SatelliteReceive.h>
 #include <Servo.h>
 
 #define ledPin 13
-SatelliteRecive reciver;
+SatelliteReceive reciver;
 Servo myServo;
 int time = 0;
 

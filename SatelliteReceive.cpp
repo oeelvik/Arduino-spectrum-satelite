@@ -14,6 +14,15 @@ SatelliteReceive::SatelliteReceive(){
 	reversing[3] = false;
 	reversing[5] = false;
 	reversing[1] = false;
+
+	channels[0] = 1024;
+	channels[1] = 5120;
+	channels[2] = 2048;
+	channels[3] = 3072;
+	channels[4] = 0;
+	channels[5] = 4096;
+
+	byteCount = 99;
 }
 
 void SatelliteReceive::setReversing(bool thro, bool aile, bool elev, bool rudd, bool gear, bool flap){
@@ -26,17 +35,32 @@ void SatelliteReceive::setReversing(bool thro, bool aile, bool elev, bool rudd, 
 }
 
 void SatelliteReceive::regByte(int byte){
-	if(byte == 0x01 && prevByte == 0x03) {
+	// second rudder bit along with first throttlebit can form header and first along with second throttle bit can form header
+	if(byte == 0x01 && prevByte == 0x03 && (byteCount < 8 || byteCount > 9)) {
 		lastMessageTime = millis();
 
 		cByte = true;
-		channel = 0;
-	} else if (channel < 7){
-		if(cByte){ //Second byte
-			channels[channel] = (prevByte * 256) + byte;
-			channel++;
+
+		byteCount = 0;
+	} else if(cByte){
+		value = (prevByte * 256) + byte;
+
+		if (value > 0 && value < 1024){
+			channels[4] = value; //Throttle
+		} else if (value < 2048) {
+			channels[0] = value; //Aileron
+		} else if (value < 3072) {
+			channels[2] = value; //Elev
+		} else if (value < 4096) {
+			channels[3] = value; //Rudder
+		} else if (value < 5120) {
+			channels[5] = value; //Gear
+		} else if (value < 6144) {
+			channels[1] = value; //Flap
 		}
 	}
+	
+	byteCount++;
 	prevByte = byte;
 	cByte = !cByte;
 }

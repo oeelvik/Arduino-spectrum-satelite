@@ -43,8 +43,9 @@ public:
 private:
 	bool reversing[7];
 	int channels[7];
-	int prevByte;
-	int channel;
+	byte prevByte;
+	int value;
+	byte byteCount;
 	bool cByte;
 	long lastMessageTime;
 };
